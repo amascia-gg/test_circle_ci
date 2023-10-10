@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  ggshield: gitguardian/ggshield
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -28,3 +31,7 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
+      - ggshield/scan:
+        name: ggshield-scan # best practice is to name each orb job
+        base_revision: << pipeline.git.base_revision >>
+        revision: <<pipeline.git.revision>>
