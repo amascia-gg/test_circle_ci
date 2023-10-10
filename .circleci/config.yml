@@ -30,8 +30,7 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello
       - ggshield/scan:
-        name: ggshield-scan # best practice is to name each orb job
+        name: ggshield-scan
         base_revision: << pipeline.git.base_revision >>
         revision: <<pipeline.git.revision>>
