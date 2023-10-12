@@ -4,6 +4,11 @@ jobs:
   say-hello:
     docker:
       - image: cimg/base:stable
+    environment:
+      CIRCLE_RANGE: <<parameters.base_revision>>...<<parameters.revision>>
+      TRIGGER_TYPE: <<pipeline.trigger_parameters.circleci.trigger_type>>
+      EVENT_TYPE: <<pipeline.trigger_parameters.circleci.event_type>>
+      GITHUB_APP_CHECKOUT_SHA: <<pipeline.trigger_parameters.github_app.checkout_sha>>
     steps:
       - checkout
       - run:
@@ -13,6 +18,7 @@ jobs:
           name: "Say hello again"
           command: "git rev-parse HEAD^"
           when: always
+
 
 workflows:
   say-hello-workflow:
