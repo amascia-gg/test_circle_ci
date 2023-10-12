@@ -25,4 +25,6 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello
+      - say-hello:
+          environment:
+            CIRCLECI_GH_COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
