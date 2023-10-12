@@ -14,6 +14,7 @@ jobs:
       GITHUB_APP_COMMIT_SHA: <<pipeline.trigger_parameters.github_app.commit_sha>>
       GITHUB_APP_BRANCH: <<pipeline.trigger_parameters.github_app.branch>>
       CIRCLE_COMPARE_URL: << pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
+      NUMBER_COMMITS: <<pipeline.trigger_parameters.github_app.total_commits_count>>
     steps:
       - checkout
       - run:
