@@ -5,6 +5,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
+      TRIGGER_SOURCE: <<pipeline.trigger_source>>
       CIRCLE_RANGE: <<pipeline.git.base_revision>>...<<pipeline.git.revision>>
       TRIGGER_TYPE: <<pipeline.trigger_parameters.circleci.trigger_type>>
       EVENT_TYPE: <<pipeline.trigger_parameters.circleci.event_type>>
