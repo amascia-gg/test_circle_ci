@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
-      CIRCLE_RANGE: <<parameters.base_revision>>...<<parameters.revision>>
+      CIRCLE_RANGE: <<pipeline.git.base_revision>>...<<pipeline.git.revision>>
       TRIGGER_TYPE: <<pipeline.trigger_parameters.circleci.trigger_type>>
       EVENT_TYPE: <<pipeline.trigger_parameters.circleci.event_type>>
       GITHUB_APP_CHECKOUT_SHA: <<pipeline.trigger_parameters.github_app.checkout_sha>>
