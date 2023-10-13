@@ -4,17 +4,6 @@ jobs:
   say-hello:
     docker:
       - image: cimg/base:stable
-    environment:
-      TRIGGER_SOURCE: <<pipeline.trigger_source>>
-      CIRCLE_RANGE: <<pipeline.git.base_revision>>...<<pipeline.git.revision>>
-      TRIGGER_TYPE: <<pipeline.trigger_parameters.circleci.trigger_type>>
-      EVENT_TYPE: <<pipeline.trigger_parameters.circleci.event_type>>
-      GITHUB_APP_CHECKOUT_SHA: <<pipeline.trigger_parameters.github_app.checkout_sha>>
-      GITHUB_APP_REF: <<pipeline.trigger_parameters.github_app.ref>>
-      GITHUB_APP_COMMIT_SHA: <<pipeline.trigger_parameters.github_app.commit_sha>>
-      GITHUB_APP_BRANCH: <<pipeline.trigger_parameters.github_app.branch>>
-      CIRCLE_COMPARE_URL: << pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
-      NUMBER_COMMITS: <<pipeline.trigger_parameters.github_app.total_commits_count>>
     steps:
       - checkout
       - run:
