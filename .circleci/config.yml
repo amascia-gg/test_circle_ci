@@ -24,8 +24,8 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
-      GITHUB_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>
-      GITLAB_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>
+      GITHUB_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
+      GITLAB_COUNT: <<<pipeline.trigger_parameters.gitlab.total_commits_count>>
     steps:
       - run:
           name: "Max count"
