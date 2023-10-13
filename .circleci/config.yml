@@ -14,27 +14,19 @@ jobs:
       GITHUB_APP_COMMIT_SHA: <<pipeline.trigger_parameters.github_app.commit_sha>>
       GITHUB_APP_BRANCH: <<pipeline.trigger_parameters.github_app.branch>>
       CIRCLE_COMPARE_URL: << pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
-      NUMBER_COMMITS: <<pipeline.trigger_parameters.github_app.total_commits_count>>
-    steps:
-      - checkout
-      - run:
-          name: "Display environment variables"
-          command: "env"
-  commit-count:
-    docker:
-      - image: cimg/base:stable
-    environment:
       GITHUB_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
       GITLAB_COUNT: <<<pipeline.trigger_parameters.gitlab.total_commits_count>>
     steps:
       - checkout
       - run:
-          name: "Max Count"
+          command: |
+            MAX_COUNT=$(( GITHUB_COUNT > GITLAB_COUNT ? GITHUB_COUNT : GITLAB_COUNT ))
+            echo "export CIRCLE_COMMIT_COUNT=$MAX_COUNT" >> $BASH_ENV
+      - run:
+          name: "Display environment variables"
           command: "env"
-
 
 workflows:
   say-hello-workflow:
     jobs:
       - say-hello
-      - commit-count
