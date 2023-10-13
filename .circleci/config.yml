@@ -10,7 +10,7 @@ jobs:
           if [[ -z $(eval echo <<pipeline.trigger_parameters.github_app.total_commits_count>>) ]]; then
             echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>" >> $BASH_ENV
           elif [ -z $(eval echo <<pipeline.trigger_parameters.gitlab.total_commits_count>>) ]; then
-            echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>" >> $BASH_ENV
+            echo "export COMMIT_COUNT=$(eval echo <<pipeline.trigger_parameters.gitlab.total_commits_count>>)" >> $BASH_ENV
           else
             echo "export COMMIT_COUNT=1" >> $BASH_ENV
           fi
