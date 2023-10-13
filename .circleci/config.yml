@@ -30,8 +30,10 @@ jobs:
       - checkout
       - run:
           command: |
-            "MAX_COUNT=$(( GITHUB_COUNT > GITLAB_COUNT ? GITHUB_COUNT : GITLAB_COUNT ))
-            echo "export CIRCLE_COMMIT_COUNT=$MAX_COUNT" >> $BASH_ENV"
+            MAX_COUNT=$(( GITHUB_COUNT > GITLAB_COUNT ? GITHUB_COUNT : GITLAB_COUNT ))
+            echo "export CIRCLE_COMMIT_COUNT=$MAX_COUNT" >> $BASH_ENV
+      - run:
+          name: "Max Count"
           command: "env"
 
 
