@@ -9,16 +9,14 @@ jobs:
       - run:
           name: "Determine count"
           command: |
-            if [ "<< pipeline.project.type >>" == "github" ]; then
-              echo "export COMMIT_COUNT=$GITHUB_TOTAL_COMMITS_COUNT" >> $BASH_ENV
-            elif [ "<< pipeline.project.type >>" == "gitlab" ]; then
-              echo "export COMMIT_COUNT=$GITLAB_TOTAL_COMMITS_COUNT" >> $BASH_ENV
+            if [ -n "<<pipeline.trigger_parameters.github_app>>" ]; then
+              echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>" >> $BASH_ENV
+            elif [ -n "<<pipeline.trigger_parameters.gitlab>>" ]; then
+              echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>" >> $BASH_ENV
             else
-              echo "export COMMIT_COUNT=1" >> $BASH_ENV
+              echo "No commit count found"
+              exit 1
             fi
-          environment:
-            GITHUB_TOTAL_COMMITS_COUNT: << pipeline.trigger_parameters.github_app.total_commits_count >>
-            GITLAB_TOTAL_COMMITS_COUNT: << pipeline.trigger_parameters.gitlab.total_commits_count >>
       - run:
           name: "Display environment variables"
           command: "env"
