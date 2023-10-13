@@ -4,10 +4,15 @@ jobs:
   say-hello:
     docker:
       - image: cimg/base:stable
-    environment:
-      COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
     steps:
       - checkout
+      - run:
+          name: "Max count"
+          command: |
+            GITHUB_COUNT="<<parameters.github_app.total_commits_count>>"
+            GITLAB_COUNT="<<parameters.gitlab.total_commits_count>>"
+            MAX_COUNT=$(( GITHUB_COUNT > GITLAB_COUNT ? GITHUB_COUNT : GITLAB_COUNT ))
+            echo "export CIRCLE_COMMIT_COUNT=$MAX_COUNT" >> $BASH_ENV
       - run:
           name: "Display environment variables"
           command: "env"
