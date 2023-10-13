@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
-      COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>><<pipeline.trigger_parameters.gitlab.total_commits_count>>
+      COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
     steps:
       - checkout
       - run:
