@@ -17,12 +17,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Export commit count variables"
+          command: |
+            echo "export GITHUB_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>" >> $BASH_ENV
+            echo "export GITLAB_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>" >> $BASH_ENV
+      - run:
           name: "Determine count"
           command: |
-            if [ -n "<<pipeline.trigger_parameters.github_app.total_commits_count>>" ]; then
-              echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>" >> $BASH_ENV
+            if [ -n "$GITHUB_COUNT" ]; then
+              echo "export COMMIT_COUNT=$GITHUB_COUNT" >> $BASH_ENV
             else
-              echo "export COMMIT_COUNT=CIRCLE_COMPARE_URL" >> $BASH_ENV
+              echo "export COMMIT_COUNT=$GITLAB_COUNT" >> $BASH_ENV
             fi
       - run:
           name: "Display environment variables"
