@@ -4,16 +4,10 @@ jobs:
   say-hello:
     docker:
       - image: cimg/base:stable
+    environment:
+      COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>><<pipeline.trigger_parameters.gitlab.total_commits_count>>
     steps:
       - checkout
-      - when:
-          condition: <<pipeline.trigger_parameters.github_app.total_commits_count>>
-          steps:
-            run: echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>" >> $BASH_ENV
-      - unless:
-          condition: <<pipeline.trigger_parameters.gitlab.total_commits_count>>
-          steps:
-            run: echo "export COMMIT_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>" >> $BASH_ENV
       - run:
           name: "Display environment variables"
           command: "env"
