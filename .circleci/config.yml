@@ -18,6 +18,13 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Max count"
+          command: |
+            GITHUB_COUNT="<<pipeline.trigger_parameters.github_app.total_commits_count>>"
+            GITLAB_COUNT="<<pipeline.trigger_parameters.gitlab.total_commits_count>>"
+            MAX_COUNT=$(( GITHUB_COUNT > GITLAB_COUNT ? GITHUB_COUNT : GITLAB_COUNT ))
+            echo "export CIRCLE_COMMIT_COUNT=$MAX_COUNT" >> $BASH_ENV
+      - run:
           name: "Say hello"
           command: "env"
 
@@ -25,6 +32,4 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello:
-          environment:
-            CIRCLECI_GH_COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
+      - say-hello
