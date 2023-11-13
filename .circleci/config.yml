@@ -11,8 +11,20 @@ jobs:
       - run:
           name: "Set CIRCLE_COMMIT_COUNT based on trigger type"
           command: |
-            export CIRCLE_COMMIT_COUNT=$(echo "${pipeline.trigger_parameters.circleci.trigger_type}" == "gitlab" && echo "${pipeline.trigger_parameters.gitlab.total_commits_count}" || echo "${pipeline.trigger_parameters.github_app.total_commits_count}")
-      - run:
+            if [ "${pipeline.trigger_parameters.circleci.trigger_type}" = "gitlab" ]; then
+              if [ -n "${pipeline.trigger_parameters.gitlab.total_commits_count}" ]; then
+                COMMITS_COUNT=${pipeline.trigger_parameters.gitlab.total_commits_count}
+              else
+                echo "GitLab total_commits_count not found, setting default value"
+                COMMITS_COUNT=0
+              fi
+            elif [ -n "${pipeline.trigger_parameters.github_app.total_commits_count}" ]; then
+              COMMITS_COUNT=${pipeline.trigger_parameters.github_app.total_commits_count}
+            else
+              echo "GitHub total_commits_count not found, setting default value"
+              COMMITS_COUNT=0
+            fi
+            echo "Commits Count: $COMMITS_COUNT"
       - run:
           name: "Display environment variables"
           command: "env"
