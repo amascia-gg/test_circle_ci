@@ -6,6 +6,8 @@ jobs:
       - image: cimg/base:stable
     environment:
       TRIGGER_TYPE: <<pipeline.trigger_parameters.circleci.trigger_type>>
+      CIRCLE_GH_COMMIT_COUNT: <<pipeline.trigger_parameters.github_app.total_commits_count>>
+      CIRCLE_GL_COMMIT_COUNT: <<#if pipeline.trigger_parameters.gitlab>><<pipeline.trigger_parameters.gitlab.total_commits_count>><</if>>
     steps:
       - checkout
       - run:
