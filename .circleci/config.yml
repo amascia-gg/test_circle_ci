@@ -9,14 +9,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Set CIRCLE_COMMIT_COUNT based on trigger type"
-          command: |
-            if [ "<<pipeline.trigger_parameters.circleci.trigger_type>>" = "GitLab" ]; then
-              echo 'export CIRCLE_COMMIT_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>' >> $BASH_ENV
-            else
-              echo 'export CIRCLE_COMMIT_COUNT=<<pipeline.trigger_parameters.github.total_commits_count>>' >> $BASH_ENV
-            fi
-      - run:
           name: "Display environment variables"
           command: "env"
 
