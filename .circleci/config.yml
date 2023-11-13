@@ -12,7 +12,10 @@ jobs:
           name: "Set CIRCLE_COMMIT_COUNT based on trigger type"
           command: |
             if [ "<<pipeline.trigger_parameters.circleci.trigger_type>>" = "GitLab" ]; then
-              echo 'export CIRCLE_COMMIT_COUNT=<<pipeline.trigger_parameters.gitlab.total_commits_count>>' >> $BASH_ENV
+              PROJECT_ID="<<your_gitlab_project_id>>"
+              GITLAB_API_TOKEN="<<your_gitlab_api_token>>"
+              COMMIT_COUNT=$(curl --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" "https://gitlab.com/api/v4/projects/$PROJECT_ID/repository/commits" | jq length)
+              echo "export CIRCLE_COMMIT_COUNT=$COMMIT_COUNT" >> $BASH_ENV
             else
               echo 'export CIRCLE_COMMIT_COUNT=<<pipeline.trigger_parameters.github_app.total_commits_count>>' >> $BASH_ENV
             fi
