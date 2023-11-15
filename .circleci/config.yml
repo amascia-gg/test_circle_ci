@@ -4,23 +4,23 @@ jobs:
   say-hello:
     docker:
       - image: cimg/base:stable
-    environment:
-      TRIGGER_TYPE: <<pipeline.trigger_parameters.circleci.trigger_type>>
     steps:
       - when:
           condition:
-            equal: [<< parameters.trigger_parameters.circleci.trigger_type >>, "gitlab"]
+            equal: [<<pipeline.trigger_parameters.circleci.trigger_type>>, "gitlab"]
           steps:
             - run:
-                command: ggshield secret scan -v ci
+                command: env
                 environment:
                   CIRCLE_COMMIT_COUNT: << pipeline.trigger_parameters.gitlab.total_commits_count >>
       - when:
           condition:
-            equal: [<< parameters.trigger_parameters.circleci.trigger_type >>, "github_app"]
+            equal: [<<pipeline.trigger_parameters.circleci.trigger_type>>, "github_app"]
           steps:
             - run:
-                command: ggshield secret scan -v ci
+                command: env
+                environment:
+                  CIRCLE_COMMIT_COUNT: << pipeline.trigger_parameters.github_app.total_commits_count >>
 
 
 workflows:
